@@ -59,8 +59,7 @@ mongoose.connection.on('disconnected', () => {
 });
 
 // Раздача статических файлов из папки public
-const rootPublicDir = path.join(__dirname, '../../public');
-app.use(express.static(rootPublicDir));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Маршруты
 app.use('/product', productRoutes);
