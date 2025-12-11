@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import mongoose from 'mongoose';
 import { CelebrateError } from 'celebrate';
+import { ConflictError } from '../errors';
 
 // Определяем типы для ошибок
 interface CustomError extends Error {
@@ -56,6 +57,12 @@ const errorHandler = (
   // Обработка ошибки дубликата уникального поля
   if (err.message && err.message.includes('E11000')) {
     response.message = 'Товар с таким названием уже существует';
+  }
+
+  if (err instanceof ConflictError) {
+    return res.status(409).json({
+      message: err.message
+    });
   }
 
   res.status(statusCode).json(response);

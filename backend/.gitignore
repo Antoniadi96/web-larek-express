@@ -20,6 +20,3 @@ node_modules
 dist
 temp
 .env
-
-# Public images
-public/images/
