@@ -1,3 +1,5 @@
+/* eslint-disable max-classes-per-file */
+
 // Базовый класс ошибки
 class ApiError extends Error {
   statusCode: number;
