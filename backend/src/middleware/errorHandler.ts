@@ -11,9 +11,9 @@ interface CustomError extends Error {
 // Middleware для обработки ошибок
 const errorHandler = (
   err: CustomError | CelebrateError,
-  req: Request,
+  _req: Request,
   res: Response,
-  next: NextFunction,
+  _next: NextFunction,
 ) => {
   res.locals.error = err;
 
@@ -61,11 +61,11 @@ const errorHandler = (
 
   if (err instanceof ConflictError) {
     return res.status(409).json({
-      message: err.message
+      message: err.message,
     });
   }
 
-  res.status(statusCode).json(response);
+  return res.status(statusCode).json(response);
 };
 
 export default errorHandler;

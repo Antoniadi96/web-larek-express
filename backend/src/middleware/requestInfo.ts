@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 
 // Middleware для добавления информации о запросе
-export const requestInfo = (req: Request, res: Response, next: NextFunction) => {
+const requestInfo = (req: Request, res: Response, next: NextFunction) => {
   res.locals.requestId = Date.now().toString(36) + Math.random().toString(36).substr(2);
 
   res.locals.startTime = Date.now();
@@ -9,7 +9,7 @@ export const requestInfo = (req: Request, res: Response, next: NextFunction) => 
   console.log(`[${new Date().toISOString()}] ${req.method} ${req.url} (ID: ${res.locals.requestId})`);
 
   const originalEnd = res.end;
-  res.end = function (chunk?: any, encoding?: any) {
+  res.end = function end(chunk?: any, encoding?: any) {
     const duration = Date.now() - res.locals.startTime;
     console.log(`[${new Date().toISOString()}] ${req.method} ${req.url} - ${res.statusCode} (${duration}ms) (ID: ${res.locals.requestId})`);
 
@@ -18,3 +18,5 @@ export const requestInfo = (req: Request, res: Response, next: NextFunction) => 
 
   next();
 };
+
+export default requestInfo;

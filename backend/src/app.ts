@@ -9,9 +9,7 @@ import orderRoutes from './routes/order.routes';
 import notFoundHandler from './middleware/notFoundHandler';
 import errorHandler from './middleware/errorHandler';
 import { requestLogger, errorLogger } from './middleware/logger';
-import { requestInfo } from './middleware/requestInfo';
-
-// Создаем папку для логов
+import requestInfo from './middleware/requestInfo';
 
 // Загружаем переменные окружения
 dotenv.config();

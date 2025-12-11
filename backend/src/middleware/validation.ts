@@ -76,8 +76,7 @@ export const validateCreateOrder = celebrate({
 
     phone: Joi.string()
       .required()
-      // Более гибкая валидация телефона
-      .pattern(/^\+?[\d\s\-\(\)]+$/)
+      .pattern(/^\+?[\d\s\-()]+$/)
       .messages({
         'string.pattern.base': 'Некорректный формат телефона. Пример: +7 (999) 123-45-67',
         'string.empty': 'Поле "phone" должно быть заполнено',

@@ -4,7 +4,7 @@ import Product from '../models/product.model';
 import { ConflictError, InternalServerError, BadRequestError } from '../errors';
 
 // Получить все товары
-export const getAllProducts = async (req: Request, res: Response, next: NextFunction) => {
+export const getAllProducts = async (_req: Request, res: Response, next: NextFunction) => {
   try {
     const products = await Product.find().sort({ createdAt: -1 });
 
@@ -20,7 +20,9 @@ export const getAllProducts = async (req: Request, res: Response, next: NextFunc
 // Создать новый товар
 export const createProduct = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { title, image, category, description, price } = req.body;
+    const {
+      title, image, category, description, price,
+    } = req.body;
 
     // Валидация на уровне контроллера (дополнительно к celebrate)
     if (!title || title.trim().length < 2) {
@@ -49,13 +51,12 @@ export const createProduct = async (req: Request, res: Response, next: NextFunct
 
     // Формат ответа, который ожидают тесты
     res.status(201).json({
-      _id: savedProduct._id,  // Изменено с "id" на "_id" для соответствия тестам
+      _id: savedProduct._id,
       title: savedProduct.title,
       image: savedProduct.image,
       category: savedProduct.category,
       description: savedProduct.description,
       price: savedProduct.price,
-      // Дополнительные поля, если они есть в модели
       ...(savedProduct.createdAt && { createdAt: savedProduct.createdAt }),
       ...(savedProduct.updatedAt && { updatedAt: savedProduct.updatedAt }),
     });
@@ -72,7 +73,7 @@ export const createProduct = async (req: Request, res: Response, next: NextFunct
       return;
     }
 
-    // Если ошибка уже имеет статус (например, BadRequestError или ConflictError)
+    // Если ошибка уже имеет статус
     if (error.statusCode && error.statusCode >= 400 && error.statusCode < 500) {
       next(error);
       return;

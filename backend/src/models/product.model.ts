@@ -22,35 +22,34 @@ const productSchema: Schema = new Schema({
     required: [true, 'Поле "title" должно быть заполнено'],
     minlength: [2, 'Минимальная длина поля "title" - 2'],
     maxlength: [30, 'Максимальная длина поля "title" - 30'],
-    trim: true
+    trim: true,
   },
   image: {
     fileName: {
       type: String,
-      required: [true, 'Поле "fileName" должно быть заполнено']
+      required: [true, 'Поле "fileName" должно быть заполнено'],
     },
     originalName: {
       type: String,
-      required: [true, 'Поле "originalName" должно быть заполнено']
-    }
+      required: [true, 'Поле "originalName" должно быть заполнено'],
+    },
   },
   category: {
     type: String,
-    required: [true, 'Поле "category" должно быть заполнено']
+    required: [true, 'Поле "category" должно быть заполнено'],
   },
   description: {
     type: String,
-    default: ''
+    default: '',
   },
   price: {
     type: Number,
-    default: null
-  }
+    default: null,
+  },
 }, {
-  timestamps: true  
+  timestamps: true,
 });
 
-// Модель товара
 const Product = mongoose.model<IProduct>('product', productSchema);
 
 export default Product;

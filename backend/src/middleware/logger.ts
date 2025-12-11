@@ -19,12 +19,12 @@ export const requestLogger = expressWinston.logger({
   msg: 'HTTP {{req.method}} {{req.url}}',
   expressFormat: false,
   colorize: false,
-  ignoreRoute(req, res) {
+  ignoreRoute(req, _res) {
     return req.url.startsWith('/images') || req.url === '/api/check-db';
   },
   requestWhitelist: ['url', 'method', 'headers', 'query', 'body'],
   responseWhitelist: ['statusCode', 'responseTime'],
-  dynamicMeta: (req, res) => ({
+  dynamicMeta: (req, _res) => ({
     ip: req.ip,
     userAgent: req.get('user-agent'),
     timestamp: new Date().toISOString(),
@@ -47,10 +47,10 @@ export const errorLogger = expressWinston.errorLogger({
   meta: true,
   msg: 'Error: {{err.message}}',
   requestWhitelist: ['url', 'method', 'headers', 'query', 'body'],
-  dynamicMeta: (req, res) => ({
+  dynamicMeta: (req, _res) => ({
     ip: req.ip,
     userAgent: req.get('user-agent'),
     timestamp: new Date().toISOString(),
-    errorStack: res.locals.error?.stack,
+    errorStack: _res.locals.error?.stack,
   }),
 });
