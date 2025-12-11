@@ -1,0 +1,39 @@
+import winston from 'winston';
+
+// Формат логов с timestamp
+const logFormat = winston.format.combine(
+  winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+  winston.format.errors({ stack: true }),
+  winston.format.json(),
+);
+
+// Создаем логгер для приложения
+const logger = winston.createLogger({
+  level: process.env.NODE_ENV === 'production' ? 'info' : 'debug',
+  format: logFormat,
+  transports: [
+    new winston.transports.File({
+      filename: 'logs/error.log',
+      level: 'error',
+      maxsize: 5242880,
+      maxFiles: 5,
+    }),
+    new winston.transports.File({
+      filename: 'logs/combined.log',
+      maxsize: 5242880,
+      maxFiles: 5,
+    }),
+  ],
+});
+
+// В режиме разработки также выводим логи в консоль
+if (process.env.NODE_ENV !== 'production') {
+  logger.add(new winston.transports.Console({
+    format: winston.format.combine(
+      winston.format.colorize(),
+      winston.format.simple(),
+    ),
+  }));
+}
+
+export default logger;
